@@ -1,6 +1,36 @@
 
 const fs = require('fs')
 
+
+class FileManager{
+
+    constructor(path){
+        this.path = path
+    }
+
+    async fileReader(){
+
+            if (!fs.existsSync(this.path)){
+                /*Si no existe el archivo te lo crea*/
+                let emptyDataJSON = JSON.stringify([])
+
+                try{                
+                    await fs.promises.writeFile(this.path,emptyDataJSON)
+                }
+                catch(error){
+                    console.log({error})
+                }
+
+            }
+
+        }
+}
+
+path = 'products.json'
+
+let localData = new FileManager(path)
+localData.fileReader()
+
 class ProductManager {
     static id = 0;
     constructor(title, description, price, thumbnail, stock, path) {
@@ -24,7 +54,7 @@ class ProductManager {
     readFileProducts() {
         fs.readFile('products.json', 'utf-8', (err, data) => {
             if (err) throw err;
-            console.log(console.log(JSON.parse(data)))
+            console.log((JSON.parse(data)))
         })
     }
     addProduct(product) {
